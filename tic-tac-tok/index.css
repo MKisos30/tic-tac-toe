@@ -28,3 +28,8 @@ body {
     float: left;
     box-sizing: border-box;
 }
+
+.box img {
+    width: 150px;
+    height: 150px;
+}
