@@ -27,8 +27,8 @@ function createBoxes() {
 }
 
 function Box(_id) {
-    this.o_image = 'o.jpg';
-    this.x_image = 'x.jpg';
+    this.o_image = '../o.jpg';
+    this.x_image = '../x.jpg';
     this.id = _id;
     this.figure = _id;
 
