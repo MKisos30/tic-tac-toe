@@ -1,69 +1,56 @@
-var playTurn;
-var box1;
-var counterClicked;
-var boxes_ar;
+let playTurn;
+let counterClicked;
+let gameDone = false
+const boxes_ar = [];
 
-function init() {
-    createBoxes();
-    resetGame();
-    id_reset_btn.onclick = resetGame;
-}
+const id_blocks = document.getElementById("id_blocks")
+const id_reset_btn = document.getElementById("id_reset_btn")
+
+id_reset_btn.onclick = resetGame;
 
 function resetGame() {
     playTurn = 1;
-    counterClicked = 0; 
-
-    for (var i = 0; i < boxes_ar.length; i++) {
-        boxes_ar[i].resetBox;
-    }
+    counterClicked = 0;
+    location.reload();
 }
 
-function createBoxes() {
-    boxes_ar = [];
-    for(var i = 0; i < 9; i++) {
-        var box = new Box(i);
-        boxes_ar.push(box);
-    }
+for (var i = 0; i < 9; i++) {
+    var box = new Box(i);
+    boxes_ar.push(box);
 }
 
 function Box(_id) {
-    this.o_image = '../o.jpg';
-    this.x_image = '../x.jpg';
+    const o_image = '../img/o.jpg';
+    const x_image = '../img/x.jpg';
+
     this.id = _id;
     this.figure = _id;
 
-    var all_obj = this;
-    var beenClicked = false;
+    let all_obj = this;
+    let beenClicked = false;
     
-    var newDiv = document.createElement('div');
+    const newDiv = document.createElement('div');
     newDiv.className = 'box';
+    newDiv.setAttribute("id", _id)
     id_blocks.appendChild(newDiv)
-    //newDiv.innerHTML += this.id;
     
-    var boximg = document.createElement('img');
-    boximg.src = '';
-    newDiv.appendChild(boximg);
+    const boximg = document.createElement('img');
     
-    this.resetBox = function resetBox() {
-        boximg.src = '';
-        beenClicked = false;
-    }
 
     newDiv.onclick = function() {
         if (beenClicked == false) {
             if (playTurn == 1) {
-                boximg.src = all_obj.x_image;
+                boximg.src = o_image
                 playTurn = 2;
-                beenClicked = true;
-                counterClicked ++
                 all_obj.figure = 'x'
             } else {
-                boximg.src = all_obj.o_image;
+                boximg.src = x_image
                 playTurn = 1;
-                beenClicked = true;
-                counterClicked ++
                 all_obj.figure = 'o'
             }
+            beenClicked = true;
+            newDiv.appendChild(boximg);
+            ++counterClicked;
             checkWinCombo();
         }
 
@@ -72,6 +59,7 @@ function Box(_id) {
         }
     }
 }
+
 
 function checkWinCombo() {
 
@@ -102,13 +90,15 @@ function checkWinCombo() {
         whoWin = boxes_ar[2].figure;
     }
 
-    if (whoWin == 'o') {
-        alert('Player 2 win!')
-        resetGame();
-    } else if (whoWin == 'x') {
-        alert('Player 1 win!')
-        resetGame();
-    }
-
-
+    setTimeout(() => {
+        if (whoWin == 'o') {
+                alert('Player 2 win!')
+                gameDone = true;
+                resetGame();
+        } else if (whoWin == 'x') {
+            alert('Player 1 win!');
+            gameDone = true;
+            resetGame();
+        }
+    }, 300)
 }
